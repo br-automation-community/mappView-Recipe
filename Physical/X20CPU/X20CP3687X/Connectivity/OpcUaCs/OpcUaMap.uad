@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="6.0"?>
+<OpcUaSource FileVersion="10" ArVersion="R4.93">
+  <Aliases>
+    <ACLAliases>
+      <ACL Id="1">
+        <ACE RoleName="Everyone" Access="0x10A5" />
+      </ACL>
+      <ACL Id="2">
+        <ACE RoleName="Everyone" Access="0x10E5" />
+      </ACL>
+    </ACLAliases>
+    <EURangeViolationAliases />
+    <EURangesAliases />
+    <EngineeringUnitAliases />
+  </Aliases>
+  <Module Name="&lt;Default&gt;">
+    <GlobalVariables Name="Global Variables">
+      <Variable Name="Recipe_01" RecursiveEnable="1">
+        <Variable Name="VIS" RecursiveEnable="1" />
+      </Variable>
+    </GlobalVariables>
+    <Task Name="Recipe_01" />
+    <Task Name="YourTask">
+      <Variable Name="CustomerID" />
+      <Variable Name="MaschineData" RecursiveEnable="1">
+        <Variable Name="Temperature1" />
+        <Variable Name="Temperature2" />
+        <Variable Name="MotorSpeed" />
+        <Variable Name="Position" />
+      </Variable>
+      <Variable Name="ProductID" />
+    </Task>
+  </Module>
+</OpcUaSource>

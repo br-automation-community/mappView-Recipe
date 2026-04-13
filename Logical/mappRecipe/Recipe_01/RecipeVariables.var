@@ -10,7 +10,6 @@ END_VAR
 (*Local Variables*)
 VAR
 	RECIPE : REFERENCE TO recMAIN; (*Local recipe structure*)
-	DeviceName : STRING[80]; (*Device name where the recipes are stored*)
 	RecipeIDs : ARRAY[0..REC_REC_NUM] OF BOOL; (*Used with unicode option, keeps tracks of the IDs used*)
 	RecipeIndex : UINT; (*Current recipe index*)
 	RecipeName : WSTRING[REC_NAME_LENGTH]; (*Local recipe name*)

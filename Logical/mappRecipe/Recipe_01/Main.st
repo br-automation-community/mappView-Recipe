@@ -257,7 +257,7 @@ PROGRAM _CYCLIC
 					rec_state := CreateError(ADR(RECIPE), ERR_REC_NAME_EMPTY, "new recipe name is empty", REC_WAIT);
 				END_IF
 				// Make sure device name is valid
-				IF(DeviceName = '') THEN
+				IF(REC_DEVICE = '') THEN
 					rec_state := CreateError(ADR(RECIPE), ERR_REC_DEV_NAME_EMPTY, "device name is empty", REC_WAIT);
 				END_IF
 				// Make sure variable name has at least one entry
@@ -322,7 +322,7 @@ PROGRAM _CYCLIC
 		// --------------------------------------------------------------------------------------------------------------------
 		REC_CREATE_DIR:
 			DCreate.enable 	:= TRUE;
-			DCreate.pDevice	:= ADR(DeviceName);
+			DCreate.pDevice	:= ADR(REC_DEVICE);
 			DCreate.pName := ADR(REC_DIRECTORY);
 			DCreate();
 										
@@ -353,7 +353,7 @@ PROGRAM _CYCLIC
 			// ---------------------------------------------------------------------------------------- 		
 			// Set values and get device dir															
 			DInfo.enable 	:= TRUE;
-			DInfo.pDevice	:= ADR(DeviceName);
+			DInfo.pDevice	:= ADR(REC_DEVICE);
 			DInfo();
 						
 			// ---------------------------------------------------------------------------------------- 		
@@ -362,7 +362,7 @@ PROGRAM _CYCLIC
 				rec_state := REC_READ_DIR_1;
 			ELSIF (DInfo.status = fiERR_DEVICE_MANAGER) THEN
 				tmpWStr1 := "file device ";
-				brwcsconv(ADR(tmpWStr2), ADR(DeviceName), brwU8toUC);
+				brwcsconv(ADR(tmpWStr2), ADR(REC_DEVICE), brwU8toUC);
 				brwcscat(ADR(tmpWStr1), ADR(tmpWStr2));
 				brwcscat(ADR(tmpWStr1), ADR(" is unavailable"));
 				rec_state := CreateError(ADR(RECIPE), DInfo.status, tmpWStr1, rec_state);
@@ -381,7 +381,7 @@ PROGRAM _CYCLIC
 		// --------------------------------------------------------------------------------------------------------------------
 		REC_READ_DIR_1:														
 			DOpen.enable 	:= TRUE;
-			DOpen.pDevice	:= ADR(DeviceName);
+			DOpen.pDevice	:= ADR(REC_DEVICE);
 			DOpen.pName 	:= ADR(REC_DIRECTORY);
 			DOpen();
 						
@@ -558,7 +558,7 @@ PROGRAM _CYCLIC
 			IF(REC_RECIPE_TYPE = typeCSV) THEN
 				MpRecipeCsv_0.Enable := TRUE;
 				MpRecipeCsv_0.MpLink := ADR(MpComGetLink_0.MpLink);
-				MpRecipeCsv_0.DeviceName := ADR(DeviceName);
+				MpRecipeCsv_0.DeviceName := ADR(REC_DEVICE);
 				MpRecipeCsv_0.FileName := ADR(RecipeFullFileName);
 				MpRecipeCsv_0.Category := ADR(REC_THIS_TASK);
 				MpRecipeCsv_0.Save := RECIPE.CMD.Save OR RECIPE.CMD.New OR RECIPE.CMD.Rename;
@@ -570,7 +570,7 @@ PROGRAM _CYCLIC
 			ELSE
 				MpRecipeXml_0.Enable := TRUE;
 				MpRecipeXml_0.MpLink := ADR(MpComGetLink_0.MpLink);
-				MpRecipeXml_0.DeviceName := ADR(DeviceName);
+				MpRecipeXml_0.DeviceName := ADR(REC_DEVICE);
 				MpRecipeXml_0.FileName := ADR(RecipeFullFileName);
 				MpRecipeXml_0.Category := ADR(REC_THIS_TASK);
 				MpRecipeXml_0.Save := RECIPE.CMD.Save OR RECIPE.CMD.New OR RECIPE.CMD.Rename;
@@ -670,7 +670,7 @@ PROGRAM _CYCLIC
 			// ---------------------------------------------------------------------------------------- 		
 			// Initialize file delete structure 														
 			FDelete.enable		:= TRUE;
-			FDelete.pDevice 	:= ADR(DeviceName);
+			FDelete.pDevice 	:= ADR(REC_DEVICE);
 			FDelete.pName		:= ADR(RecipeFullFileName);
 			FDelete();
 										
@@ -713,7 +713,7 @@ PROGRAM _CYCLIC
 			// ---------------------------------------------------------------------------------------- 		
 			// Initialize file delete structure 														
 			FRename.enable		:= TRUE;
-			FRename.pDevice 	:= ADR(DeviceName);
+			FRename.pDevice 	:= ADR(REC_DEVICE);
 			FRename.pName		:= ADR(RecipeFullFileName);
 			FRename.pNewName	:= ADR(tmpStr1);
 			FRename();	
@@ -760,7 +760,7 @@ PROGRAM _CYCLIC
 						// Verify that file name contains filter											
 						IF(brsmemcmp(ADR(RecipeFullFileName) + brsstrlen(ADR(RecipeFullFileName)) - brsstrlen(ADR(REC_VIEW_FILTER[idx])) , ADR(REC_VIEW_FILTER[idx]), brsstrlen(ADR(REC_VIEW_FILTER[idx]))) = 0) THEN
 							RECIPE.VIS[RECIPE.PAR.VisuSlotID].ViewFilePath := '/FileDevice:';
-							brsstrcat(ADR(RECIPE.VIS[RECIPE.PAR.VisuSlotID].ViewFilePath), ADR(DeviceName));
+							brsstrcat(ADR(RECIPE.VIS[RECIPE.PAR.VisuSlotID].ViewFilePath), ADR(REC_DEVICE));
 							brsstrcat(ADR(RECIPE.VIS[RECIPE.PAR.VisuSlotID].ViewFilePath), ADR("/"));
 							brsstrcat(ADR(RECIPE.VIS[RECIPE.PAR.VisuSlotID].ViewFilePath), ADR(RecipeFullFileName));
 							RECIPE.CMD.View := FALSE;
@@ -781,7 +781,7 @@ PROGRAM _CYCLIC
 			// ----------------------------------------------------------------------------------------
 			// Initialize file open structure
 			FOpen.enable	:= TRUE;
-			FOpen.pDevice 	:= ADR(DeviceName);
+			FOpen.pDevice 	:= ADR(REC_DEVICE);
 			FOpen.pFile		:= ADR(RecipeFullFileName);
 			FOpen();
 			
@@ -1042,7 +1042,7 @@ PROGRAM _CYCLIC
 			// ---------------------------------------------------------------------------------------- 		
 			// Initialize file delete structure 														
 			FDelete.enable		:= TRUE;
-			FDelete.pDevice 	:= ADR(DeviceName);
+			FDelete.pDevice 	:= ADR(REC_DEVICE);
 			FDelete.pName		:= ADR(RecipeFullFileName);
 			FDelete();
 										
@@ -1063,7 +1063,7 @@ PROGRAM _CYCLIC
 			// ----------------------------------------------------------------------------------------
 			// Initialize file create structure
 			FCreate.enable	:= TRUE;
-			FCreate.pDevice := ADR(DeviceName);
+			FCreate.pDevice := ADR(REC_DEVICE);
 			FCreate.pFile	:= ADR(RecipeFullFileName);
 			FCreate();
 			

@@ -5,18 +5,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 PROGRAM _INIT
-	// ----------------------------------------------------------------------------------------
-	// The following settings can be adjusted
-	IF(DiagCpuIsSimulated()) THEN
-		DeviceName 	:= 'SIM_DEVICE';						// Device name from the CPU configuration for simulation
-	ELSE
-		DeviceName 	:= REC_DEVICE;							// Device name from the CPU configuration for X20CPU
-	END_IF
-	
-	// ---------------------------------------------------------------------------------------- 
-	// Dont change anything below this line
-	// ---------------------------------------------------------------------------------------- 
-
 	// ---------------------------------------------------------------------------------------- 
 	// Make sure global variable structure and task name are correct
 	taskStatus := ST_ident(ADR(REC_THIS_TASK), taskGroup, ADR(taskID));

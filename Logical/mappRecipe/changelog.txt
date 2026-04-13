@@ -1,3 +1,6 @@
+Version 2.0 (13.04.2026)
+- Upadte to Autoamtion Studio 6
+
 Version 1.8 (1.03.2023)
 - Increase delay for file upload to make sure data is complete
 
